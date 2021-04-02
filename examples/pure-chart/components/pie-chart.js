@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, AppRegistry, StyleSheet, View, Text, TouchableWithoutFeedback, TouchableOpacity, Animated, Easing } from 'react-native'
+import { Alert, AppRegistry, StyleSheet, View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import { numberWithCommas } from '../common'
 
 class PieChart extends React.Component {
@@ -20,22 +20,16 @@ class PieChart extends React.Component {
       evtY: 0,
       selectedIndex: -1,
       labels: [],
-      colors: [],
-      fadeAnim: new Animated.Value(0)
+      colors: []
     }
   }
   // initData!!
   componentDidMount () {
     this.initData(this.props.data)
-    Animated.timing(this.state.fadeAnim, { toValue: 1, easing: Easing.bounce, duration: 1000, useNativeDriver: true }).start()
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.props.data) {
-      this.setState(Object.assign({
-        fadeAnim: new Animated.Value(0)
-      }, this.initData(nextProps.data)), () => {
-        Animated.timing(this.state.fadeAnim, { toValue: 1, easing: Easing.bounce, duration: 1000, useNativeDriver: true }).start()
-      })
+      this.initData(nextProps.data)
     }
   }
   // initialize data
@@ -462,14 +456,14 @@ class PieChart extends React.Component {
           this.handleEventOld(e)
         }}>
 
-          <Animated.View ref='test' style={StyleSheet.flatten([styles.container, {
-            transform: [{scaleY: this.state.fadeAnim}],
+          <View ref='test' style={StyleSheet.flatten([styles.container, {
             width: size,
             height: size
           }])}>
+
             {this.drawT()}
             {this.drawInfoT(this.state.selectedIndex)}
-          </Animated.View>
+          </View>
 
         </TouchableWithoutFeedback>
       </View>

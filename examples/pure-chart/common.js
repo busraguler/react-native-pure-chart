@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import {View, Text} from 'react-native'
 
+export const normalFontFamily = 'lineto-circular-pro-book-normal';
 const SINGLE_SERIES_WITH_NUMBERS = 0
 const SINGLE_SERIES_WITH_OBJECTS = 1
 const MULTI_SERIES = 2
@@ -21,6 +22,7 @@ function flattenData (data) {
         multiSeriesCount++
       }
     }
+    console.log('kj')
   })
 
   if (numberCount === length || objectWithYCount === length) {
@@ -74,7 +76,7 @@ export const initData = (dataProp, height, gap, numberOfPoints = 5) => {
     }
   }
 
-  max = Math.max(getMaxValue(dataProp))
+  max = getMaxValue(dataProp)
   guideArray = getGuideArray(max, height, numberOfPoints)
 
   dataProp = flattenData(dataProp)
@@ -193,7 +195,7 @@ export const getGuideArray = (max, height, numberOfPoints = 5) => {
     x = Math.round(x * 10)
     temp = 1
   } else if (x >= 1000 && x < 1000000) {
-    postfix = 'K'
+    postfix = 'B'
     x = Math.round(x / 100)
     temp = 1000
   } else if (x >= 1000000 && x < 1000000000) {
@@ -201,7 +203,7 @@ export const getGuideArray = (max, height, numberOfPoints = 5) => {
     x = Math.round(x / 100000)
     temp = 1000000
   } else {
-    postfix = 'B'
+    postfix = 'Mi'
     x = Math.round(x / 100000000)
     temp = 1000000000
   }
@@ -219,6 +221,7 @@ export const getGuideArray = (max, height, numberOfPoints = 5) => {
   }
 
   for (let i = 1; i < numberOfPoints + 1; i++) {
+    console.log
     let v = x / numberOfPoints * i
     arr.push([v + postfix, v * temp / max * height, 1 * temp / max * height])
   }
@@ -233,20 +236,20 @@ export const drawYAxis = (color = '#e0e0e0') => {
       borderColor: color,
       width: 1,
       height: '100%',
-      marginRight: 0
-
+      marginRight: 0,
     }} />
 
   )
 }
 
-export const drawYAxisLabels = (arr, height, minValue, color = '#000000', symbol='') => {
+export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
   return (
     <View style={{
-      width: 33 + 5*symbol.length,
+      width: 50,
+    //  backgroundColor: 'red',
       height: height,
       justifyContent: 'flex-end',
-      alignItems: 'flex-end',
+      alignItems: 'flex-start',
       marginBottom: minValue && arr && arr.length > 0 ? -1 * arr[0][2] * minValue : null,
       overflow: 'hidden'
     }}>
@@ -258,18 +261,28 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000', symbol
             bottom: 0,
             position: 'absolute'
           }}>
-          <Text style={{fontSize: 11}}>0</Text>
+        
         </View>
       ) : arr.map((v, i) => {
-        if (v[1] > height-5) return null
+        if (v[1] > height) return null
         return (
           <View
             key={'guide' + i}
             style={{
               bottom: v[1] - 5,
-              position: 'absolute'
+              position: 'absolute',
+             // backgroundColor: 'red'
             }}>
-            <Text style={{fontSize: 11, color: color}}>{v[0] + ' ' + symbol}</Text>
+            <Text style={{
+               fontFamily: normalFontFamily,
+               fontWeight: '300',
+               fontSize: 13,
+               lineHeight: 18,
+               color: '#3E4968',
+               marginVertical: 3
+            }}>
+              {v[0].toString().replace('.',',')}
+              </Text>
           </View>
         )
       })}
@@ -307,18 +320,18 @@ export const numberWithCommas = (x, summary = true) => {
   let postfix = ''
   if (summary) {
     if (x >= 1000 && x < 1000000) {
-      postfix = 'K'
+      postfix = 'B'
       x = Math.round(x / 100) / 10
     } else if (x >= 1000000 && x < 1000000000) {
       postfix = 'M'
       x = Math.round(x / 100000) / 10
     } else if (x >= 1000000000 && x < 1000000000000) {
-      postfix = 'B'
+      postfix = 'Mi'
       x = Math.round(x / 100000000) / 10
     }
   }
 
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + postfix
+  return formatMoney(x.toString()) + postfix
 }
 
 export const drawXAxis = (color = '#e0e0e0') => {
@@ -348,7 +361,15 @@ export const drawXAxisLabels = (sortedData, gap, color = '#000000', showEvenNumb
               width: gap,
               alignItems: 'center'
             }}>
-              <Text style={{fontSize: 9, color: color}}>
+              <Text style={{
+                  fontFamily: normalFontFamily,
+                  fontWeight: '300',
+                  fontSize: 13,
+                  lineHeight: 18,
+                  color: '#3E4968',
+                  marginVertical: 3
+                }}
+              >
                 {
                   // data[3]
                   data['x']
@@ -363,3 +384,41 @@ export const drawXAxisLabels = (sortedData, gap, color = '#000000', showEvenNumb
     </View>
   )
 }
+
+Number.prototype.formatMoney = function (fractionDigits, decimal, separator) {
+  fractionDigits = isNaN((fractionDigits = Math.abs(fractionDigits)))
+    ? 2
+    : fractionDigits;
+
+  decimal = typeof decimal === 'undefined' ? ',' : decimal;
+
+  separator = typeof separator === 'undefined' ? '.' : separator;
+
+  let number = this;
+
+  const wholePart = `${parseInt(
+    (number = Math.abs(+number || 0).toFixed(fractionDigits)),
+  )}`;
+
+  var separtorIndex =
+    (separtorIndex = wholePart.length) > 3 ? separtorIndex % 3 : 0;
+
+  return (
+    (separtorIndex ? wholePart.substr(0, separtorIndex) + separator : '') +
+    wholePart
+      .substr(separtorIndex)
+      .replace(/(\d{3})(?=\d)/g, `$1${separator}`) +
+    (fractionDigits
+      ? decimal +
+        Math.abs(number - Number(wholePart))
+          .toFixed(fractionDigits)
+          .slice(2)
+      : '')
+  );
+};
+
+function formatMoney(raw) {
+  return Number(raw).formatMoney(2, ',', '.');
+}
+
+export {formatMoney};

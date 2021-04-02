@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 
 export default class ColumnChartItem extends Component {
+
   render () {
+  
     let renders = []
     let seriesCount = this.props.seriesArray.length
     for (let seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
@@ -11,16 +13,26 @@ export default class ColumnChartItem extends Component {
       if (seriesIndex === (seriesCount - 1)) {
         lastElementMarginRight = this.props.defaultMargin
       }
+      let columnOpacity = 1;
+      let columnColor = this.props.isSelected? '#F98B83' : this.props.seriesArray[seriesIndex].seriesColor;
+      let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
+      if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
+        columnColor = 'gray',
+        columnHeight = '50%',
+        columnOpacity = 0.3
+      }
       renders.push(
         <View key={seriesIndex} style={[styles.bar, {
           width: this.props.defaultWidth / seriesCount,
-          height: this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'],
+          height: columnHeight,
           marginRight: lastElementMarginRight,
-          backgroundColor: this.props.seriesArray[seriesIndex].seriesColor,
-          borderColor: this.props.isSelected ? this.props.highlightColor : this.props.defaultBorderColor
+          backgroundColor: columnColor,
+          opacity: columnOpacity
+        // borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
         }]} />
       )
     }
+  
     return (
       <TouchableWithoutFeedback onPressIn={(evt) => this.props.onClick(evt)}>
         <View style={{height: this.props.defaultHeight}}>
@@ -42,7 +54,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     justifyContent: 'flex-end',
-    borderWidth: 1
+   // borderWidth: 1
   }
 })
 
@@ -53,5 +65,7 @@ ColumnChartItem.propTypes = {
   defaultHeight: PropTypes.number,
   defaultMargin: PropTypes.number,
   primaryColor: PropTypes.string,
-  highlightColor: PropTypes.string
+  highlightColor: PropTypes.string,
+  backgroundColor: PropTypes.string,
 }
+
