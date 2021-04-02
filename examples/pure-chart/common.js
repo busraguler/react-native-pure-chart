@@ -246,7 +246,6 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
   return (
     <View style={{
       width: 50,
-    //  backgroundColor: 'red',
       height: height,
       justifyContent: 'flex-end',
       alignItems: 'flex-start',
@@ -271,7 +270,6 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
             style={{
               bottom: v[1] - 5,
               position: 'absolute',
-             // backgroundColor: 'red'
             }}>
             <Text style={{
                fontFamily: normalFontFamily,
@@ -279,7 +277,6 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
                fontSize: 13,
                lineHeight: 18,
                color: '#3E4968',
-               marginVertical: 3
             }}>
               {v[0].toString().replace('.',',')}
               </Text>

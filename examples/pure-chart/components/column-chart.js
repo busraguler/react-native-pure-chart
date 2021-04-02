@@ -129,7 +129,8 @@ export default class ColumnChart extends Component {
 
     return (
       <View style={StyleSheet.flatten([styles.wrapper, {
-        backgroundColor: 'blue'
+        backgroundColor: this.props.backgroundColor,
+        padding: 10
       }])}>
         <View style={{paddingRight: 5}}>
           {drawYAxisLabels(this.state.guideArray, this.props.height + 20, this.props.minValue, this.props.labelColor)}
