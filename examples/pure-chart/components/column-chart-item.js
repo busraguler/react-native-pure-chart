@@ -17,9 +17,9 @@ export default class ColumnChartItem extends Component {
       let columnColor = this.props.isSelected? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;
       let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
       if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
-        columnColor = 'gray',
-        columnHeight = '50%',
-        columnOpacity = 0.3
+        columnColor = '#cbcbcb',
+        columnHeight = '50%'
+       // columnOpacity = 0.3
       }
       renders.push(
         <View key={seriesIndex} style={[styles.bar, {
@@ -27,7 +27,7 @@ export default class ColumnChartItem extends Component {
           height: columnHeight,
           marginRight: lastElementMarginRight,
           backgroundColor: columnColor,
-          opacity: columnOpacity,
+          //opacity: columnOpacity,
           borderRadius: 5
         // borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
         }]} />
