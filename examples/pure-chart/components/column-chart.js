@@ -13,7 +13,7 @@ export default class ColumnChart extends Component {
       sortedData: newState.sortedData,
       max: newState.max,
       selectedIndex: null,
-      fadeAnim: new Animated.Value(0),
+    //  fadeAnim: new Animated.Value(0),
       guideArray: newState.guideArray,
       gap: defaultGap
     }
@@ -24,18 +24,18 @@ export default class ColumnChart extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.props.data) {
-      this.setState(Object.assign({
+      /*this.setState(Object.assign({
         fadeAnim: new Animated.Value(0)
       }, initData(nextProps.data, this.props.height, this.state.gap, this.props.numberOfYAxisGuideLine)), () => {
         Animated.timing(this.state.fadeAnim, { toValue: 1, easing: Easing.bounce, duration: 1000, useNativeDriver: true }).start()
-      })
+      })*/
     }
   }
 
   componentDidMount () {
-    Animated.timing(this.state.fadeAnim, {
+    /*Animated.timing(this.state.fadeAnim, {
       toValue: 1, easing: Easing.bounce, duration: 1000, useNativeDriver: true
-    }).start()
+    }).start() */
   }
 
   renderColumns (fadeAnim) {
@@ -60,12 +60,12 @@ export default class ColumnChart extends Component {
     }
 
     return (
-      <Animated.View style={[styles.chartView, {
-        transform: [{scaleY: fadeAnim}],
+      <View style={[styles.chartView, {
+        //transform: [{scaleY: fadeAnim}],
         marginBottom: this.props.minValue && this.state.guideArray && this.state.guideArray.length > 0 ? -1 * this.state.guideArray[0][2] * this.props.minValue : null
       }]}>
         {renderColumns}
-      </Animated.View>
+      </View>
     )
   }
 
@@ -147,8 +147,7 @@ export default class ColumnChart extends Component {
               <View style={{ marginLeft: this.props.defaultColumnWidth / 2 }}>
                 {drawXAxisLabels(this.state.sortedData[0].data, this.state.gap, this.props.labelColor, this.props.showEvenNumberXaxisLabel)}
               </View>
-            </View>
-            {this.drawTooltip(this.state.selectedIndex)}
+            </View>   
           </ScrollView>
         </View>
       </View>
