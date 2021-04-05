@@ -248,7 +248,7 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
       width: 50,
       height: height,
       justifyContent: 'flex-end',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       marginBottom: minValue && arr && arr.length > 0 ? -1 * arr[0][2] * minValue : null,
       overflow: 'hidden'
     }}>
