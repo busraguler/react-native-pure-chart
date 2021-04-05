@@ -14,7 +14,7 @@ export default class ColumnChartItem extends Component {
         lastElementMarginRight = this.props.defaultMargin
       }
       let columnOpacity = 1;
-      let columnColor = this.props.isSelected? '#F98B83' : this.props.seriesArray[seriesIndex].seriesColor;
+      let columnColor = this.props.isSelected? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;
       let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
       if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
         columnColor = 'gray',
@@ -27,7 +27,8 @@ export default class ColumnChartItem extends Component {
           height: columnHeight,
           marginRight: lastElementMarginRight,
           backgroundColor: columnColor,
-          opacity: columnOpacity
+          opacity: columnOpacity,
+          borderRadius: 5
         // borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
         }]} />
       )
