@@ -22,7 +22,6 @@ function flattenData (data) {
         multiSeriesCount++
       }
     }
-    console.log('kj')
   })
 
   if (numberCount === length || objectWithYCount === length) {
@@ -221,7 +220,7 @@ export const getGuideArray = (max, height, numberOfPoints = 5) => {
   }
 
   for (let i = 1; i < numberOfPoints + 1; i++) {
-    console.log
+
     let v = x / numberOfPoints * i
     arr.push([v + postfix, v * temp / max * height, 1 * temp / max * height])
   }
@@ -243,6 +242,8 @@ export const drawYAxis = (color = '#e0e0e0') => {
 }
 
 export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
+  let newArray = [1,2,3,4];
+
   return (
     <View style={{
       width: 50,
@@ -252,16 +253,20 @@ export const drawYAxisLabels = (arr, height, minValue, color = '#000000') => {
       marginBottom: minValue && arr && arr.length > 0 ? -1 * arr[0][2] * minValue : null,
       overflow: 'hidden'
     }}>
-
       {arr.length === 0 ? (
-        <View
-          key={'guide0'}
-          style={{
-            bottom: 0,
-            position: 'absolute'
-          }}>
-        
-        </View>
+        newArray.map((v, i) => {
+          return (
+            <View
+              key={'guide0'}
+              style={{
+                marginVertical: 10,
+                backgroundColor: '#cbcbcb',
+                borderRadius: 2,
+                width: 20,
+                height: 10
+              }}></View>
+          )
+        })
       ) : arr.map((v, i) => {
         if (v[1] > height) return null
         return (
