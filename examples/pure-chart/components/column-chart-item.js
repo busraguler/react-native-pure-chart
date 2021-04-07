@@ -14,22 +14,32 @@ export default class ColumnChartItem extends Component {
         lastElementMarginRight = this.props.defaultMargin
       }
       let columnOpacity = 1;
-      let columnColor = this.props.isSelected? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;
       let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
-      if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
+      if(this.props.isSelected !== null){
+        columnColor = this.props.dataIndex === this.props.isSelected ? '#60034C' :this.props.seriesArray[seriesIndex].seriesColor;
+      }
+      else{
+        columnColor =  this.props.dataIndex === 3 ? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;
+       
+      }
+
+      if(this.props.isSkeletonChart){
         columnColor = '#cbcbcb',
         columnHeight = '50%'
-       // columnOpacity = 0.3
       }
+      else{
+        if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
+          columnHeight = '0%'
+        }
+      }
+
       renders.push(
         <View key={seriesIndex} style={[styles.bar, {
           width: this.props.defaultWidth / seriesCount,
           height: columnHeight,
           marginRight: lastElementMarginRight,
           backgroundColor: columnColor,
-          //opacity: columnOpacity,
           borderRadius: 5
-        // borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
         }]} />
       )
     }

@@ -40,6 +40,7 @@ export default class ColumnChart extends Component {
 
   renderColumns (fadeAnim) {
     let seriesArray = this.state.sortedData
+    let skletonChart = seriesArray[0].data.filter(item => item.ratioY === 0)
     let seriesCount = seriesArray.length
     let renderColumns = []
     if (seriesCount > 0) {
@@ -49,10 +50,11 @@ export default class ColumnChart extends Component {
         renderColumns.push(
           <ColumnChartItem key={i} seriesArray={this.state.sortedData}
             dataIndex={i}
+            isSkeletonChart={skletonChart.length === 4 ? true : false}
             defaultWidth={this.props.defaultColumnWidth}
-            defaultHeight={this.props.height + 20}
+            defaultHeight={this.props.height + 40}
             defaultMargin={this.props.defaultColumnMargin}
-            isSelected={this.state.selectedIndex === i}
+            isSelected={this.state.selectedIndex}
             highlightColor={this.props.highlightColor}
             onClick={(evt) => this.handleClick(evt, i)} />
         )
@@ -133,7 +135,7 @@ export default class ColumnChart extends Component {
         padding: 10
       }])}>
         <View style={{paddingRight: 5}}>
-          {drawYAxisLabels(this.state.guideArray, this.props.height + 20, this.props.minValue, this.props.labelColor)}
+          {drawYAxisLabels(this.state.guideArray, this.props.height + 40, this.props.minValue, this.props.labelColor)}
         </View>
         <View style={styles.mainContainer}>
           <ScrollView horizontal>
