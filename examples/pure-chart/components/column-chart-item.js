@@ -13,7 +13,7 @@ export default class ColumnChartItem extends Component {
       if (seriesIndex === (seriesCount - 1)) {
         lastElementMarginRight = this.props.defaultMargin
       }
-      let columnOpacity = 1;
+      let borderRadius = 5;
       let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
       if(this.props.isSelected !== null){
         columnColor = this.props.dataIndex === this.props.isSelected ? '#60034C' :this.props.seriesArray[seriesIndex].seriesColor;
@@ -29,7 +29,9 @@ export default class ColumnChartItem extends Component {
       }
       else{
         if(this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'] === 0){
-          columnHeight = '0%'
+          columnHeight = '1%',
+          columnColor = '#cbcbcb',
+          borderRadius =0
         }
       }
 
@@ -39,7 +41,7 @@ export default class ColumnChartItem extends Component {
           height: columnHeight,
           marginRight: lastElementMarginRight,
           backgroundColor: columnColor,
-          borderRadius: 5
+          borderRadius: borderRadius
         }]} />
       )
     }
