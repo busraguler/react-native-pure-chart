@@ -14,13 +14,13 @@ export default class ColumnChartItem extends Component {
         lastElementMarginRight = this.props.defaultMargin
       }
       let borderRadius = 5;
+      let columnColor = '';
       let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
       if(this.props.isSelected !== null){
         columnColor = this.props.dataIndex === this.props.isSelected ? '#60034C' :this.props.seriesArray[seriesIndex].seriesColor;
       }
       else{
-        columnColor =  this.props.dataIndex === 3 ? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;
-       
+        columnColor =  (this.props.dataIndex === 3 || this.props.dataIndex === 11) ? '#60034C' : this.props.seriesArray[seriesIndex].seriesColor;      
       }
 
       if(this.props.isSkeletonChart){
