@@ -235,7 +235,7 @@ export const drawYAxis = (color = '#e0e0e0') => {
       borderColor: color,
       width: 1,
       height: '100%',
-      marginRight: 10,
+      //marginRight: 10,
     }} />
 
   )
