@@ -7,6 +7,8 @@ export default class ColumnChartItem extends Component {
   render () {
   
     let renders = []
+    let columnHeight = '';
+    let columnColor = '';
     let seriesCount = this.props.seriesArray.length
     for (let seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
       let lastElementMarginRight = 0
@@ -14,8 +16,10 @@ export default class ColumnChartItem extends Component {
         lastElementMarginRight = this.props.defaultMargin
       }
       let borderRadius = 5;
-      let columnColor = '';
-      let columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
+      
+
+      columnHeight = this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY']
+
       if(this.props.isSelected !== null){
         columnColor = this.props.dataIndex === this.props.isSelected ? '#60034C' :this.props.seriesArray[seriesIndex].seriesColor;
       }
@@ -35,25 +39,32 @@ export default class ColumnChartItem extends Component {
         }
       }
 
+      if(columnHeight < parseFloat(0.1)){
+        columnHeight = '2%';
+      }
+
       renders.push(
         <View key={seriesIndex} style={[styles.bar, {
           width: this.props.defaultWidth / seriesCount,
           height: columnHeight,
           marginRight: lastElementMarginRight,
           backgroundColor: columnColor,
-          borderRadius: borderRadius
+          borderRadius: borderRadius,
+          borderColor: 'red'
         }]} />
       )
     }
-  
+
     return (
-      <TouchableWithoutFeedback onPressIn={(evt) => this.props.onClick(evt)}>
-        <View style={{height: this.props.defaultHeight}}>
-          <View style={styles.chartView}>
-            {renders}
-          </View>
+     
+        <View style={{height: this.props.defaultHeight- 40}}>
+          <TouchableWithoutFeedback onPressIn={(evt) => (this.props.onClick(evt), console.log(columnHeight))}>
+            <View style={styles.chartView}>
+              {renders}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </TouchableWithoutFeedback>
+     
     )
   }
 }
@@ -62,8 +73,8 @@ const styles = StyleSheet.create({
   chartView: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    height: '100%',
-    paddingTop: 20
+    paddingTop: 20,
+    height: '100%'
   },
   bar: {
     justifyContent: 'flex-end',
