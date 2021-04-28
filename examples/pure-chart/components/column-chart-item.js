@@ -38,7 +38,7 @@ export default class ColumnChartItem extends Component {
           borderRadius =0
         }
       }
-
+    console.log(columnHeight)
       if(columnHeight < parseFloat(0.1)){
         columnHeight = '2%';
       }
@@ -54,6 +54,9 @@ export default class ColumnChartItem extends Component {
         }]} />
       )
     }
+
+    columnColor = "red";
+    console.log(columnColor)
 
     return (
      
